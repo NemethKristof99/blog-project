@@ -4,3 +4,4 @@ create table users
         primary key,
     email varchar(255) not null
 );
+
