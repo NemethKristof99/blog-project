@@ -35,6 +35,15 @@ class ArticleDao implements Dao<number, Article> {
       id,
     ]);
   }
+
+  async getOne(id: number) {
+    const [rows] = await this.db.query<ArticleRowDataPacket[]>(
+      "SELECT * FROM articles WHERE id = (?)",
+      [id]
+    );
+
+    return rows.map(mapToArticle);
+  }
 }
 
 export default ArticleDao;

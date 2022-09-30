@@ -3,12 +3,9 @@ import { DbPool } from "../../datasources/db";
 import { OkPacket } from "mysql2";
 import UserRowDataPacket from "../../models/user/UserRowDataPacket";
 import mapToUser from "../../mappers/mapToUser";
-import mapToArticle from "../../mappers/mapToArticle";
-import ArticleRowDataPacket from "../../models/article/ArticleRowDataPacket";
-import UserSpecificDao from "../../models/UserSpecificDao";
-import Article from "../../models/article/Article";
+import Dao from "../../models/Dao";
 
-class UserDao implements UserSpecificDao<number, User, Article> {
+class UserDao implements Dao<number, User> {
   constructor(private db: DbPool) {}
 
   async create(user: User) {
@@ -38,12 +35,12 @@ class UserDao implements UserSpecificDao<number, User, Article> {
   }
 
   async getOne(id: number) {
-    const [rows] = await this.db.query<ArticleRowDataPacket[]>(
-      "SELECT * FROM articles WHERE articles.author_id = (?)",
+    const [rows] = await this.db.query<UserRowDataPacket[]>(
+      "SELECT * FROM users WHERE id = (?)",
       [id]
     );
 
-    return rows.map(mapToArticle);
+    return rows.map(mapToUser);
   }
 }
 

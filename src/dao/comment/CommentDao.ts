@@ -35,6 +35,15 @@ class CommentDao implements Dao<number, Comment> {
       id,
     ]);
   }
+
+  async getOne(id: number) {
+    const [rows] = await this.db.query<CommentRowDataPacket[]>(
+      "SELECT * FROM comments WHERE id = (?)",
+      [id]
+    );
+
+    return rows.map(mapToComment);
+  }
 }
 
 export default CommentDao;

@@ -28,24 +28,16 @@ userRoutes.delete("/api/users/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    await getUserDao().remove(Number(id));
-    res.send("Ok.");
+    const users = await getUserDao().getOne(Number(id));
+    if (users.length == 0) {
+      res.sendStatus(404);
+    } else {
+      await getUserDao().remove(Number(id));
+      res.send("Ok.");
+    }
   } catch (err) {
     console.error(err);
     res.send("Error.");
-  }
-});
-
-userRoutes.get("/api/users/:id/articles", async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const articles = await getUserDao().getOne(Number(id));
-    res.set("Content-Type", "application/json");
-    res.send(articles || []);
-  } catch (err) {
-    console.error(err);
-    res.send([]);
   }
 });
 
