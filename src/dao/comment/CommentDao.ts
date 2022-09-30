@@ -24,7 +24,7 @@ class CommentDao implements Dao<number, Comment> {
 
   async findAll() {
     const [rows] = await this.db.query<CommentRowDataPacket[]>(
-      "SELECT * FROM comments"
+      "SELECT comments.body, a.title AS article_id, u.email AS author_id  FROM comments LEFT OUTER JOIN articles a ON a.id = comments.article_id LEFT OUTER JOIN users u on a.author_id = u.id"
     );
 
     return rows.map(mapToComment);

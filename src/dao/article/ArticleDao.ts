@@ -24,7 +24,7 @@ class ArticleDao implements Dao<number, Article> {
 
   async findAll() {
     const [rows] = await this.db.query<ArticleRowDataPacket[]>(
-      "SELECT * FROM articles"
+      "SELECT title, body, created_at, u.email AS author_id FROM articles JOIN users u on u.id = articles.author_id"
     );
 
     return rows.map(mapToArticle);

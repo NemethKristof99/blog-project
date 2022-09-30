@@ -1,6 +1,5 @@
 import { Router } from "express";
 import getCommentDao from "../dao/comment/getCommentDao";
-import userRoutes from "./userRoutes";
 
 const commentRoutes = Router();
 
@@ -25,7 +24,7 @@ commentRoutes.post("/api/comments", async (req, res) => {
   }
 });
 
-userRoutes.delete("/api/comments/:id", async (req, res) => {
+commentRoutes.delete("/api/comments/:id", async (req, res) => {
   const { id } = req.params;
 
   try {

@@ -36,4 +36,17 @@ userRoutes.delete("/api/users/:id", async (req, res) => {
   }
 });
 
+userRoutes.get("/api/users/:id/articles", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const articles = await getUserDao().getOne(Number(id));
+    res.set("Content-Type", "application/json");
+    res.send(articles || []);
+  } catch (err) {
+    console.error(err);
+    res.send([]);
+  }
+});
+
 export default userRoutes;
